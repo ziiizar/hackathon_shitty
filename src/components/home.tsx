@@ -7,6 +7,8 @@ import StorySubmissionModal from "./StorySubmissionModal";
 import WishGrantingForm from "./WishGrantingForm";
 import { Button } from "./ui/button";
 import { Plus } from "lucide-react";
+import WinnerCongratulationsDialog from "./WinnerCongratulationsDialog";
+import { useAuth } from "@/lib/auth";
 
 interface HomeProps {
   initialStories?: Array<{
@@ -64,21 +66,30 @@ const Home = ({
 }: HomeProps) => {
   const [isStoryModalOpen, setIsStoryModalOpen] = React.useState(false);
   const [isWishFormOpen, setIsWishFormOpen] = React.useState(false);
+  const [showCongratulations, setShowCongratulations] = React.useState(false);
+  const { user, profile } = useAuth();
+
+  React.useEffect(() => {
+    // Check if the user is the winner and hasn't submitted a wish yet
+    if (
+      user &&
+      profile?.username === winnerStory.username &&
+      !winnerStory.wish
+    ) {
+      setShowCongratulations(true);
+    }
+  }, [user, profile, winnerStory]);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      <div className="container mx-auto px-4 py-6 grid grid-cols-12 gap-8">
+      <div
+        className="container mx-auto px-4 grid grid-cols-12 gap-8"
+        style={{ marginTop: "80px" }}
+      >
         <div className="col-span-8">
           <main className="relative">
-            <Button
-              className="fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-lg"
-              onClick={() => setIsStoryModalOpen(true)}
-            >
-              <Plus className="h-6 w-6" />
-            </Button>
-
             <StoryFeed stories={initialStories} />
 
             <StorySubmissionModal
@@ -98,11 +109,24 @@ const Home = ({
                 wish: winnerStory.wish,
               }}
             />
+
+            <WinnerCongratulationsDialog
+              open={showCongratulations}
+              onOpenChange={setShowCongratulations}
+              onWishSubmit={(wish) => {
+                console.log("Wish submitted:", wish);
+                // Here you would update the winner's wish in the database
+                setShowCongratulations(false);
+              }}
+            />
           </main>
         </div>
         <div className="col-span-4">
-          <div className="sticky top-4">
-            <h2 className="text-2xl font-bold mb-4">Today's Winner</h2>
+          <div
+            className="fixed"
+            style={{ width: "calc((100vw - 3rem) * 4/12 - 2rem)" }}
+          >
+            <h2 className="text-2xl font-bold mb-4">Yesterday's Winner</h2>
             <WinnerShowcase {...winnerStory} />
           </div>
         </div>

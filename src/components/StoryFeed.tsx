@@ -55,7 +55,7 @@ const StoryFeed = ({
   ],
 }: StoryFeedProps) => {
   return (
-    <div className="w-full max-w-[800px] mx-auto bg-gray-50 min-h-screen p-4">
+    <div className="w-full max-w-[800px] mx-auto bg-gray-50 p-4">
       <ScrollArea className="h-[700px] w-full pr-4">
         <div className="space-y-4">
           {stories.map((story) => (

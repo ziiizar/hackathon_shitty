@@ -1,9 +1,18 @@
-import { Search, Bell, LogOut, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Search,
+  Bell,
+  LogOut,
+  ChevronLeft,
+  ChevronRight,
+  Plus,
+  User,
+} from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useState } from "react";
 import { useAuth } from "@/lib/auth";
 import AuthModal from "./auth/AuthModal";
+import StorySubmissionModal from "./StorySubmissionModal";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
   DropdownMenu,
@@ -11,13 +20,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { Link } from "react-router-dom";
 
-const Header = () => {
+interface HeaderProps {
+  onCreateStory?: () => void;
+}
+
+const Header = ({ onCreateStory }: HeaderProps) => {
+  const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
   const { user, profile, signOut } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   return (
-    <header className="border-b bg-white">
+    <header className="border-b bg-white fixed top-0 left-0 right-0 z-50">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <h1 className="text-2xl font-bold">Shitty</h1>
@@ -41,9 +56,20 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Bell className="h-5 w-5" />
-            <span>12h 23m</span>
+          <div className="flex items-center gap-4">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsStoryModalOpen(true)}
+              className="flex items-center gap-2"
+            >
+              <Plus className="h-4 w-4" />
+              Share Story
+            </Button>
+            <div className="flex items-center gap-2">
+              <Bell className="h-5 w-5" />
+              <span>12h 23m</span>
+            </div>
           </div>
           {user ? (
             <DropdownMenu>
@@ -62,6 +88,12 @@ const Header = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link to="/profile" className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => signOut()}>
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
@@ -76,6 +108,15 @@ const Header = () => {
           <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} />
         </div>
       </div>
+      <StorySubmissionModal
+        open={isStoryModalOpen}
+        onOpenChange={setIsStoryModalOpen}
+        onSubmit={(story) => {
+          console.log("Story submitted:", story);
+          setIsStoryModalOpen(false);
+          onCreateStory?.();
+        }}
+      />
     </header>
   );
 };

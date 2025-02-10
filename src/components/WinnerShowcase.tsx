@@ -11,14 +11,7 @@ interface WinnerShowcaseProps {
   storyContent?: string;
   wish?: string;
   timestamp?: string;
-}
-
-interface WinnerShowcaseProps {
-  username?: string;
-  avatarUrl?: string;
-  storyContent?: string;
   upvotes?: number;
-  wish?: string;
 }
 
 const WinnerShowcase = ({
@@ -29,48 +22,42 @@ const WinnerShowcase = ({
   timestamp = "Yesterday",
 }: WinnerShowcaseProps) => {
   return (
-    <div className="bg-white rounded-lg p-6 border">
-      <Card className="w-full max-w-[1512px] mx-auto p-6 border-2 border-amber-400 bg-white">
-        <div className="flex items-start space-x-4">
+    <Card className="w-full bg-white p-6 border border-amber-400 rounded-xl">
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
           <div className="relative">
-            <Avatar className="h-16 w-16 border-2 border-amber-400">
-              <AvatarImage src={avatarUrl} alt={username} />
-              <AvatarFallback>{username[0]}</AvatarFallback>
-            </Avatar>
-            <Trophy className="absolute -top-2 -right-2 h-6 w-6 text-amber-400" />
+            <div className="rounded-full border-[3px] border-amber-400 p-1">
+              <Avatar className="h-12 w-12">
+                <AvatarImage src={avatarUrl} alt={username} />
+                <AvatarFallback>{username[0]}</AvatarFallback>
+              </Avatar>
+            </div>
+            <Trophy className="absolute -top-1 -right-1 h-5 w-5 text-amber-400" />
           </div>
 
           <div className="flex-1">
-            <div className="flex items-center space-x-3 mb-2">
-              <h2 className="font-bold text-xl">{username}</h2>
-              <Badge
-                variant="secondary"
-                className="bg-amber-100 text-amber-700"
-              >
-                Yesterday's Winner
-              </Badge>
-              <span className="text-sm text-gray-500">{timestamp}</span>
+            <div className="flex items-center gap-3">
+              <h2 className="text-xl font-bold">{username}</h2>
+              <span className="text-sm text-gray-500 ml-auto">{timestamp}</span>
             </div>
-
-            <p className="text-gray-700 mb-4">{storyContent}</p>
-
-            <div className="bg-amber-50 p-4 rounded-lg mb-4">
-              <h3 className="font-semibold text-amber-700 mb-2">
-                Winner's Wish
-              </h3>
-              <p className="text-gray-600">{wish}</p>
-            </div>
-
-            <Button
-              className="bg-amber-500 hover:bg-amber-600 text-white"
-              size="lg"
-            >
-              Grant This Wish
-            </Button>
           </div>
         </div>
-      </Card>
-    </div>
+
+        <p className="text-gray-700">{storyContent}</p>
+
+        <div className="bg-amber-50 p-4 rounded-lg">
+          <h3 className="font-semibold text-amber-700 mb-2">Winner's Wish</h3>
+          <p className="text-gray-600">{wish}</p>
+        </div>
+
+        <Button
+          className="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold"
+          size="lg"
+        >
+          Grant This Wish
+        </Button>
+      </div>
+    </Card>
   );
 };
 

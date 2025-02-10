@@ -1,4 +1,6 @@
 import React from "react";
+import Header from "./Header";
+import DateNav from "./DateNav";
 import WinnerShowcase from "./WinnerShowcase";
 import StoryFeed from "./StoryFeed";
 import StorySubmissionModal from "./StorySubmissionModal";
@@ -64,37 +66,49 @@ const Home = ({
   const [isWishFormOpen, setIsWishFormOpen] = React.useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <WinnerShowcase {...winnerStory} />
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <DateNav />
+      <div className="container mx-auto px-4 py-6 grid grid-cols-12 gap-8">
+        <div className="col-span-8">
+          <WinnerShowcase {...winnerStory} />
 
-      <main className="max-w-4xl mx-auto px-4 py-6 relative">
-        <Button
-          className="fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-lg"
-          onClick={() => setIsStoryModalOpen(true)}
-        >
-          <Plus className="h-6 w-6" />
-        </Button>
+          <main className="max-w-4xl mx-auto px-4 py-6 relative">
+            <Button
+              className="fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-lg"
+              onClick={() => setIsStoryModalOpen(true)}
+            >
+              <Plus className="h-6 w-6" />
+            </Button>
 
-        <StoryFeed stories={initialStories} />
+            <StoryFeed stories={initialStories} />
 
-        <StorySubmissionModal
-          open={isStoryModalOpen}
-          onOpenChange={setIsStoryModalOpen}
-          onSubmit={(story) => {
-            console.log("Story submitted:", story);
-            setIsStoryModalOpen(false);
-          }}
-        />
+            <StorySubmissionModal
+              open={isStoryModalOpen}
+              onOpenChange={setIsStoryModalOpen}
+              onSubmit={(story) => {
+                console.log("Story submitted:", story);
+                setIsStoryModalOpen(false);
+              }}
+            />
 
-        <WishGrantingForm
-          isOpen={isWishFormOpen}
-          onClose={() => setIsWishFormOpen(false)}
-          wishDetails={{
-            username: winnerStory.username,
-            wish: winnerStory.wish,
-          }}
-        />
-      </main>
+            <WishGrantingForm
+              isOpen={isWishFormOpen}
+              onClose={() => setIsWishFormOpen(false)}
+              wishDetails={{
+                username: winnerStory.username,
+                wish: winnerStory.wish,
+              }}
+            />
+          </main>
+        </div>
+        <div className="col-span-4">
+          <div className="sticky top-4">
+            <h2 className="text-2xl font-bold mb-4">Today's Winner</h2>
+            <WinnerShowcase {...winnerStory} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

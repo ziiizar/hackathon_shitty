@@ -13,6 +13,14 @@ interface WinnerShowcaseProps {
   timestamp?: string;
 }
 
+interface WinnerShowcaseProps {
+  username?: string;
+  avatarUrl?: string;
+  storyContent?: string;
+  upvotes?: number;
+  wish?: string;
+}
+
 const WinnerShowcase = ({
   username = "Lucky Winner",
   avatarUrl = "https://api.dicebear.com/7.x/avataaars/svg?seed=winner",
@@ -21,7 +29,7 @@ const WinnerShowcase = ({
   timestamp = "Yesterday",
 }: WinnerShowcaseProps) => {
   return (
-    <div className="w-full bg-gradient-to-b from-amber-50 to-white sticky top-0 z-10 p-4 border-b">
+    <div className="bg-white rounded-lg p-6 border">
       <Card className="w-full max-w-[1512px] mx-auto p-6 border-2 border-amber-400 bg-white">
         <div className="flex items-start space-x-4">
           <div className="relative">

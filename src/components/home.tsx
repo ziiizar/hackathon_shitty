@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import DateNav from "./DateNav";
+
 import WinnerShowcase from "./WinnerShowcase";
 import StoryFeed from "./StoryFeed";
 import StorySubmissionModal from "./StorySubmissionModal";
@@ -68,12 +68,10 @@ const Home = ({
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <DateNav />
+
       <div className="container mx-auto px-4 py-6 grid grid-cols-12 gap-8">
         <div className="col-span-8">
-          <WinnerShowcase {...winnerStory} />
-
-          <main className="max-w-4xl mx-auto px-4 py-6 relative">
+          <main className="relative">
             <Button
               className="fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-lg"
               onClick={() => setIsStoryModalOpen(true)}
